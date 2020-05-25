@@ -41,11 +41,13 @@ export const fetchDailyData = async () => {
 export const fetchCountryData = async country => {
     try {
         const {
-            deaths, 
-            confirmed, 
-            recovered, 
-            lastUpdate
-        } = await axios.get(`${url}/daily/${country}`);
+            data: {
+                deaths, 
+                confirmed, 
+                recovered, 
+                lastUpdate
+            }
+        } = await axios.get(`${url}/countries/${country}`);
         
 
         return {deaths, confirmed, recovered, lastUpdate};

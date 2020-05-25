@@ -3,14 +3,15 @@ import Cards from './components/Cards/Cards';
 import Chart from './components/Chart/Chart';
 import CountryPicker from './components/CountryPicker/CountryPicker';
 
-import {fetchData} from './api';
+import {fetchData, fetchCountryData} from './api';
 
 import style from './App.module.css';
 
 class App extends React.Component{
 
     state = {
-        data: {}
+        data: {},
+        country: "global"
     };
 
     async componentDidMount(){
@@ -18,12 +19,23 @@ class App extends React.Component{
         this.setState({data: fetchedData});
     }
 
+
+    countryhandler = async country =>{
+        // 1 Fetch
+        let fetchedData = null;
+        if(country == "global")
+            fetchedData = await fetchData();
+        else 
+            fetchedData = await fetchCountryData(country);
+        this.setState({data: fetchedData})
+    }
+
     render(){
         return (
             <div className={style.container}>
                 <h1>Stuff</h1>
                 <Cards data={this.state.data}/>
-                <CountryPicker/>
+                <CountryPicker countryHandler={this.countryhandler}/>
                 <Chart/>
             </div>
         );
